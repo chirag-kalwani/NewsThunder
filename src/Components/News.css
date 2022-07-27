@@ -1,0 +1,12 @@
+h2{
+    margin: 5px 0;
+    text-align: center;
+}
+.flex {
+    display: flex;
+    grid-gap: 50px;
+    width: 80%;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 50px auto;
+}
