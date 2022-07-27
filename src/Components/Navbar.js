@@ -5,7 +5,7 @@ class Navbar extends Component {
     render() {
         return (
             <div>
-                <nav className="navbar navbar-expand-lg bg-light">
+                <nav className="navbar navbar-expand-xxl navbar-dark bg-dark">
                     <div className="container-fluid">
                         <a className="navbar-brand" href="/">{this.props.title}</a>
                         <button className="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -19,8 +19,39 @@ class Navbar extends Component {
                                     <a className="nav-link active" aria-current="page" href="/">Home</a>
                                 </li>
                                 <li className="nav-item ">
-                                    <a className="nav-link active" aria-current="page" href="/">About Us</a>
+                                    <a className="nav-link active" aria-current="page" href="/about">About Us</a>
                                 </li>
+                                <li className="nav-item ">
+                                    <a onClick={this.props.Setcategory} className="nav-link active"
+                                       aria-current="page" href='/business'>business
+                                    </a>
+                                </li>
+                                <li className="nav-item ">
+                                    <a onClick={this.props.Setcategory} className="nav-link active"
+                                       aria-current="page" href='/entertainment'>entertainment
+                                    </a>
+                                </li>
+                                <li className="nav-item ">
+                                    <a onClick={this.props.Setcategory} className="nav-link active"
+                                       aria-current="page" href='/health'>health
+                                    </a>
+                                </li>
+                                <li className="nav-item ">
+                                    <a onClick={this.props.Setcategory} className="nav-link active"
+                                       aria-current="page" href='/science'>science
+                                    </a>
+                                </li>
+                                <li className="nav-item ">
+                                    <a onClick={this.props.Setcategory} className="nav-link active"
+                                       aria-current="page" href='/sports'>sports
+                                    </a>
+                                </li>
+                                <li className="nav-item ">
+                                    <a onClick={this.props.Setcategory} className="nav-link active"
+                                       aria-current="page" href='/technology'>technology
+                                    </a>
+                                </li>
+
                             </ul>
                         </div>
                     </div>

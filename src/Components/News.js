@@ -12,20 +12,24 @@ class News extends Component {
             totalResults: 0
         }
     }
+
     async fetchData(page) {
-        let url = `https://newsapi.org/v2/top-headlines?sources=techcrunch&apiKey=537546ef4b964485a77197786029fec9&pageSize=${this.props.pageSize}&page=${page}`;
+        let url = `https://newsapi.org/v2/top-headlines?category=${this.props.category}&apiKey=537546ef4b964485a77197786029fec9&pageSize=${this.props.pageSize}&page=${page}`;
         this.setState({loading: true});
         let data = await fetch(url);
         let parsedData = await data.json();
+        console.log(parsedData.totalResults);
         this.setState({
             articles: parsedData.articles,
             loading: false,
             totalResults: parsedData.totalResults
         });
     }
+
     async componentDidMount() { // run after render
         await this.fetchData(1);
     }
+
     prevPage = async () => {
         let pageNo = this.state.page - 1;
         this.setState({page: pageNo});
@@ -43,7 +47,7 @@ class News extends Component {
         return (
             <>
                 <div className='container'>
-                    <h2>News Thunder - Top News headlines</h2>
+                    <h2 className='my-3'>News Thunder - Top News headlines</h2>
                     {this.state.loading && <Spinner/>}
                     {/* This is loop insie jsx to create as many Newsitems as we want */}
                     <div className="row">
