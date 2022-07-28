@@ -6,7 +6,7 @@ class Navbar extends Component {
     render() {
         return (
             <div>
-                <nav className="navbar navbar-expand-xxl navbar-dark bg-dark">
+                <nav className="navbar fixed-top navbar-expand-xxl navbar-dark bg-dark">
                     <div className="container-fluid">
                         <Link className="navbar-brand" to="/">{this.props.title}</Link>
                         <button className="navbar-toggler" type="button" data-bs-toggle="collapse"

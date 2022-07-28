@@ -39,7 +39,7 @@ class News extends Component {
     render() {
         return (
             <>
-                <h2 className='my-3 text-center'>News Thunder - Top News headlines</h2>
+                <h2 className='text-center' style={{marginTop: "75px"}}>News Thunder - Top News headlines</h2>
                 {this.state.loading && <Spinner/>}
                 <InfiniteScroll
                     dataLength={this.state.articles.length}
