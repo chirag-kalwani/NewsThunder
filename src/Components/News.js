@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import NewsItem from "./NewsItem";
+import InfiniteScroll from "react-infinite-scroll-component";
 import Spinner from "./Spinner";
 
 class News extends Component {
@@ -15,11 +16,10 @@ class News extends Component {
 
     async fetchData(page) {
         let url = `https://newsapi.org/v2/top-headlines?category=${this.props.category}&apiKey=537546ef4b964485a77197786029fec9&language=en&pageSize=${this.props.pageSize}&page=${page}`;
-        this.setState({loading: true});
         let data = await fetch(url);
         let parsedData = await data.json();
         this.setState({
-            articles: parsedData.articles,
+            articles: this.state.articles.concat(parsedData.articles),
             loading: false,
             totalResults: parsedData.totalResults
         });
@@ -29,52 +29,41 @@ class News extends Component {
         await this.fetchData(1);
     }
 
-    prevPage = async () => {
-        let pageNo = this.state.page - 1;
-        this.setState({page: pageNo});
-        await this.fetchData(pageNo);
-        window.scrollTo(0, 0);
-    };
-    nextPage = async () => {
-        let pageNo = this.state.page + 1;
-        this.setState({page: pageNo});
-        await this.fetchData(pageNo);
-        window.scrollTo(0, 0);
+    fetchMoreData = async () => {
+        await this.fetchData(this.state.page + 1);
+        this.setState({
+            page: this.state.page + 1
+        });
     };
 
     render() {
         return (
             <>
-                <div className='container'>
-                    <h2 className='my-3'>News Thunder - Top News headlines</h2>
-                    {this.state.loading && <Spinner/>}
-                    {/* This is loop insie jsx to create as many Newsitems as we want */}
-                    <div className="row">
-                        {!this.state.loading && this.state.articles.map((ele) => {
-                            return (<div className="col-md-4 my-3" key={ele.url !== null ? ele.url : ' '}>
-                                <NewsItem title={ele.title !== null ? ele.title : ' '}
-                                          description={ele.description !== null ? ele.description : ' '}
-                                          imgUrl={ele.urlToImage !== null ? ele.urlToImage : ' '}
-                                          newUrl={ele.url !== null ? ele.url : ' '}
-                                          author={ele.author}
-                                          date={ele.publishedAt}
-                                          source={ele.source['name']}
-                                />
-                            </div>)
-                        })}
+                <h2 className='my-3 text-center'>News Thunder - Top News headlines</h2>
+                {this.state.loading && <Spinner/>}
+                <InfiniteScroll
+                    dataLength={this.state.articles.length}
+                    next={this.fetchMoreData}
+                    hasMore={this.state.articles.length !== this.state.totalResults}
+                    loader={<Spinner/>}
+                    style={{padding: "10px"}}
+                >
+                    <div className="container">
+                        <div className="row">
+                            {this.state.articles.map((ele, ind) => {
+                                return (<div className="col-md-4 my-3" key={ind}>
+                                    <NewsItem title={ele.title !== null ? ele.title : ' '}
+                                              description={ele.description !== null ? ele.description : ' '}
+                                              imgUrl={ele.urlToImage !== null ? ele.urlToImage : ' '}
+                                              newUrl={ele.url !== null ? ele.url : ' '}
+                                              author={ele.author}
+                                              date={ele.publishedAt}
+                                              source={ele.source['name']}/>
+                                </div>)
+                            })}
+                        </div>
                     </div>
-                    {/* Buttons to navigate next and prev page */}
-                    <div className="d-flex justify-content-between">
-                        <button disabled={this.state.page <= 1} type="button" onClick={this.prevPage}
-                                className="btn btn-dark">&larr; Prev
-                        </button>
-                        <button
-                            disabled={this.state.page + 1 > Math.ceil(this.state.totalResults / this.props.pageSize)}
-                            type="button"
-                            onClick={this.nextPage}
-                            className="btn btn-dark">Next &rarr;</button>
-                    </div>
-                </div>
+                </InfiniteScroll>
             </>
         );
     }
