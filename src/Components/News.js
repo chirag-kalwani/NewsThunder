@@ -15,7 +15,7 @@ class News extends Component {
     }
 
     async fetchData(page) {
-        let url = `https://newsapi.org/v2/top-headlines?category=${this.props.category}&apiKey=537546ef4b964485a77197786029fec9&language=en&pageSize=${this.props.pageSize}&page=${page}`;
+        let url = `https://newsapi.org/v2/top-headlines?category=${this.props.category}&apiKey=${this.props.apiKey}&language=en&pageSize=${this.props.pageSize}&page=${page}`;
         let data = await fetch(url);
         let parsedData = await data.json();
         this.setState({
@@ -51,7 +51,7 @@ class News extends Component {
                     <div className="container">
                         <div className="row">
                             {this.state.articles.map((ele, ind) => {
-                                return (<div className="col-md-4 my-3" key={ind}>
+                                return (<div className="col my-3" key={ind}>
                                     <NewsItem title={ele.title !== null ? ele.title : ' '}
                                               description={ele.description !== null ? ele.description : ' '}
                                               imgUrl={ele.urlToImage !== null ? ele.urlToImage : ' '}
