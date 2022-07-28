@@ -14,11 +14,10 @@ class News extends Component {
     }
 
     async fetchData(page) {
-        let url = `https://newsapi.org/v2/top-headlines?category=${this.props.category}&apiKey=537546ef4b964485a77197786029fec9&pageSize=${this.props.pageSize}&page=${page}`;
+        let url = `https://newsapi.org/v2/top-headlines?category=${this.props.category}&apiKey=537546ef4b964485a77197786029fec9&language=en&pageSize=${this.props.pageSize}&page=${page}`;
         this.setState({loading: true});
         let data = await fetch(url);
         let parsedData = await data.json();
-        console.log(parsedData.totalResults);
         this.setState({
             articles: parsedData.articles,
             loading: false,
@@ -56,7 +55,11 @@ class News extends Component {
                                 <NewsItem title={ele.title !== null ? ele.title : ' '}
                                           description={ele.description !== null ? ele.description : ' '}
                                           imgUrl={ele.urlToImage !== null ? ele.urlToImage : ' '}
-                                          newUrl={ele.url !== null ? ele.url : ' '}/>
+                                          newUrl={ele.url !== null ? ele.url : ' '}
+                                          author={ele.author}
+                                          date={ele.publishedAt}
+                                          source={ele.source['name']}
+                                />
                             </div>)
                         })}
                     </div>
